@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:popular_people/models/details_model.dart';
 import 'package:popular_people/models/images_model.dart';
@@ -16,6 +17,7 @@ class PeopleService {
     });
     final response = await http.get(uri);
     if (response.statusCode == 200) {
+      if (kDebugMode) print("response body: ${response.body}");
       return peopleModelFromJson(response.body).results;
     } else {
       throw Exception('Failed to fetch people ${response.statusCode}');
@@ -29,20 +31,22 @@ class PeopleService {
     });
     final response = await http.get(uri);
     if (response.statusCode == 200) {
+      if (kDebugMode) print("response body: ${response.body}");
       return detailsModelFromJson(response.body);
     } else {
       throw Exception('Failed to fetch details ${response.statusCode}');
     }
   }
 
-  Future<List<Profile>> fetchImages(int personId) async {
+  Future<ImagesModel> fetchImages(int personId) async {
     final uri = Uri.https(_baseUrl, '/3/person/$personId/images', {
       'api_key': _apiKey,
       'language': _language,
     });
     final response = await http.get(uri);
     if (response.statusCode == 200) {
-      return imagesModelFromJson(response.body).profiles;
+      if (kDebugMode) print("response body: ${response.body}");
+      return imagesModelFromJson(response.body);
     } else {
       throw Exception('Failed to fetch images ${response.statusCode}');
     }

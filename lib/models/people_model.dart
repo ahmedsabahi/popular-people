@@ -3,6 +3,9 @@
 //     final popularModel = popularModelFromJson(jsonString);
 
 import 'dart:convert';
+import 'dart:core';
+
+import 'package:popular_people/services/local/db_helper.dart';
 
 PeopleModel peopleModelFromJson(String str) =>
     PeopleModel.fromJson(json.decode(str));
@@ -38,22 +41,25 @@ class PeopleModel {
       };
 }
 
+List<Result> resultModelFromDB(dynamic data) =>
+    List<Result>.from(data.map((savedP) => Result.fromDB(savedP)));
+
 class Result {
   Result({
     required this.profilePath,
-    required this.adult,
+    this.adult,
     required this.id,
-    required this.knownFor,
+    this.knownFor,
     required this.name,
-    required this.popularity,
+    this.popularity,
   });
 
   final String? profilePath;
-  final bool adult;
+  final bool? adult;
   final int id;
-  final List<KnownFor> knownFor;
+  final List<KnownFor>? knownFor;
   final String name;
-  final double popularity;
+  final double? popularity;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         profilePath: json["profile_path"],
@@ -66,13 +72,27 @@ class Result {
       );
 
   Map<String, dynamic> toJson() => {
-        "profile_path": profilePath,
         "adult": adult,
         "id": id,
-        "known_for": List<dynamic>.from(knownFor.map((x) => x.toJson())),
         "name": name,
+        "profile_path": profilePath,
         "popularity": popularity,
+        "known_for": List<dynamic>.from(knownFor!.map((x) => x.toJson())),
       };
+
+  Map<String, dynamic> toDB() {
+    return {
+      DbHelper.COLUMN_ID: id,
+      DbHelper.COLUMN_NAME: name,
+      DbHelper.COLUMN_IMAGE: profilePath,
+    };
+  }
+
+  factory Result.fromDB(Map<String, dynamic> json) => Result(
+        id: json[DbHelper.COLUMN_ID],
+        name: json[DbHelper.COLUMN_NAME],
+        profilePath: json[DbHelper.COLUMN_IMAGE],
+      );
 }
 
 class KnownFor {

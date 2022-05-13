@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:popular_people/repositories/people_repository.dart';
+
+PeopleRepository _peopleRepository = PeopleRepository();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,7 +54,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {
+  Future<void> _incrementCounter() async {
+    var x = await _peopleRepository.fetchPeople(2);
+    print(x.map((e) => e.toDB()));
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below

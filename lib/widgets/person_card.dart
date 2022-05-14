@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:popular_people/models/people_model.dart';
+import 'package:popular_people/services/remote/internet.dart';
 import 'package:popular_people/services/remote/people_service.dart';
 import 'package:popular_people/ui/personDetails/person_details_screen.dart';
 
-class PersonCard extends StatelessWidget {
+class PersonCard extends StatefulWidget {
   const PersonCard(
     this.person, {
     Key? key,
@@ -13,13 +14,28 @@ class PersonCard extends StatelessWidget {
   final Result person;
 
   @override
+  State<PersonCard> createState() => _PersonCardState();
+}
+
+class _PersonCardState extends State<PersonCard> {
+  bool _connected = true;
+  @override
+  void initState() {
+    () async {
+      _connected = await Internet.checkConnectivity();
+      if (!_connected) setState(() => _connected = false);
+    };
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
-
+    // print(widget.person.profilePath);
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => PersonDetailsScreen(person),
+          builder: (context) => PersonDetailsScreen(widget.person),
         ));
       },
       child: Card(
@@ -33,12 +49,12 @@ class PersonCard extends StatelessWidget {
           child: Row(
             children: [
               Hero(
-                tag: person.id,
+                tag: widget.person.id,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20.0),
                   child: CachedNetworkImage(
                     imageUrl: PeopleService.imageBaseUrl +
-                        person.profilePath.toString(),
+                        widget.person.profilePath.toString(),
                     width: mediaQuery.width * 0.4,
                     height: mediaQuery.height * .21,
                     fit: BoxFit.cover,
@@ -53,21 +69,22 @@ class PersonCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      person.name,
+                      widget.person.name,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Wrap(
-                      children: person.knownFor!.map((movie) {
-                        return Text(
-                          '${movie.title ?? ''}${movie.title == null ? '' : ','} ',
-                          style: const TextStyle(fontSize: 14),
-                        );
-                      }).toList(),
-                    )
+                    if (widget.person.knownFor != null)
+                      Wrap(
+                        children: widget.person.knownFor!.map((movie) {
+                          return Text(
+                            '${movie.title ?? ''}${movie.title == null ? '' : ','} ',
+                            style: const TextStyle(fontSize: 14),
+                          );
+                        }).toList(),
+                      )
                   ],
                 ),
               ),

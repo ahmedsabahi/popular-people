@@ -119,15 +119,15 @@ class KnownFor {
   });
 
   final String? posterPath;
-  final bool adult;
+  final bool? adult;
   final String overview;
   final String? releaseDate;
-  final String originalTitle;
+  final String? originalTitle;
   final List<int> genreIds;
   final int id;
   final MediaType? mediaType;
   final OriginalLanguage? originalLanguage;
-  final String title;
+  final String? title;
   final String? backdropPath;
   final double? popularity;
   final int voteCount;
@@ -135,22 +135,22 @@ class KnownFor {
   final double voteAverage;
   final DateTime? firstAirDate;
   final List<String>? originCountry;
-  final String name;
-  final String originalName;
+  final String? name;
+  final String? originalName;
 
   factory KnownFor.fromJson(Map<String, dynamic> json) => KnownFor(
         posterPath: json["poster_path"],
         adult: json["adult"] ?? false,
         overview: json["overview"],
         releaseDate: json["release_date"],
-        originalTitle: json["original_title"] ?? 'null',
+        originalTitle: json["original_title"] ?? '',
         genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
         id: json["id"],
         mediaType: mediaTypeValues.map![json["media_type"]],
         originalLanguage:
             originalLanguageValues.map![json["original_language"]],
-        title: json["title"] ?? 'null',
-        backdropPath: json["backdrop_path"] ?? 'null',
+        title: json["title"],
+        backdropPath: json["backdrop_path"] ?? '',
         popularity:
             json["popularity"] == null ? 0.0 : json["popularity"].toDouble(),
         voteCount: json["vote_count"],
@@ -162,8 +162,8 @@ class KnownFor {
         originCountry: json["origin_country"] == null
             ? null
             : List<String>.from(json["origin_country"].map((x) => x)),
-        name: json["name"] ?? 'null',
-        originalName: json["original_name"] ?? 'null',
+        name: json["name"] ?? '',
+        originalName: json["original_name"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {

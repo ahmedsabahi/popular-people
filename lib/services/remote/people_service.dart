@@ -5,6 +5,7 @@ import 'package:popular_people/models/images_model.dart';
 import 'package:popular_people/models/people_model.dart';
 
 class PeopleService {
+  static const imageBaseUrl = 'https://image.tmdb.org/t/p/w500';
   final _baseUrl = 'api.themoviedb.org';
   final _apiKey = '72220a92bc527a38d756c861d142785f';
   final _language = 'en-US';

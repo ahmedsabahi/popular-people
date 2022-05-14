@@ -10,14 +10,14 @@ class PeopleRepository {
 
   Future<List<Result>> fetchPeople(int pageNum) async {
     // get the network status
-    final connected = await (Internet.checkConnectivity());
+    final connected = await Internet.checkConnectivity();
     final dbHelper = DbHelper.instance;
 
     if (connected) {
       // if there is a network, get data from the api and return it
       final results = await _peopleService.fetchPeople(pageNum);
       // save the posts in db
-      for (var result in results) {
+      for (final result in results) {
         dbHelper.insert(result.toDB());
       }
       return results;

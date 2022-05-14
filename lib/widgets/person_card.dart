@@ -19,7 +19,7 @@ class PersonCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => PersonDetailsScreen(person.id),
+          builder: (context) => PersonDetailsScreen(person),
         ));
       },
       child: Card(

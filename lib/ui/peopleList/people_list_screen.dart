@@ -23,7 +23,8 @@ class PeopleListScreen extends StatelessWidget {
           final results = peopleCubit.results;
           if (state is FetchPeopleError) {
             return Center(child: Text(state.errorMessage));
-          } else if (state is FetchPeopleLoading && results.isEmpty) {
+          }
+          if (state is FetchPeopleLoading && results.isEmpty) {
             return Center(child: circularProgress);
           }
           return ListView.builder(

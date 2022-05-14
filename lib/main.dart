@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:popular_people/cubits/peopleListCubit/people_cubit.dart';
+import 'package:popular_people/cubits/personImagesCubit/images_cubit.dart';
 import 'package:popular_people/ui/peopleList/people_list_screen.dart';
 import 'package:popular_people/utils/my_bloc_observer.dart';
 
-void main() {
-  // WidgetsFlutterBinding.ensureInitialized();
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -27,6 +28,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<PeopleCubit>(
           create: (_) => PeopleCubit(),
+        ),
+        BlocProvider<ImagesCubit>(
+          create: (_) => ImagesCubit(),
         ),
       ],
       child: MaterialApp(

@@ -3,7 +3,8 @@
     package="com.pp.popular_people">
    <application
         android:label="popular_people"
-        android:name="${applicationName}"
+       android:requestLegacyExternalStorage="true"
+       android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:popular_people/models/people_model.dart';
 import 'package:popular_people/services/remote/people_service.dart';
+import 'package:popular_people/widgets/images_card.dart';
 import 'package:popular_people/widgets/movies_card.dart';
 
 class PersonDetailsScreen extends StatelessWidget {
@@ -23,10 +24,12 @@ class PersonDetailsScreen extends StatelessWidget {
               floating: false,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                title: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    Text(person.name),
+                    FittedBox(
+                      child: Text(person.name),
+                    ),
                     const SizedBox(width: 10),
                     if (person.popularity != null)
                       const Icon(Icons.star, color: Colors.amber, size: 12),
@@ -63,6 +66,7 @@ class PersonDetailsScreen extends StatelessWidget {
                   ),
                 ),
               if (person.knownFor != null) MoviesCard(person),
+              ImagesCard(person),
             ],
           ),
         ),

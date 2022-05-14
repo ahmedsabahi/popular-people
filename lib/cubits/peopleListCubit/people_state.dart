@@ -10,7 +10,7 @@ class FetchPeopleLoading extends PeopleState {}
 class FetchPeopleLoaded extends PeopleState {}
 
 class FetchPeopleError extends PeopleState {
-  final String errorMessage;
+  final String message;
 
-  FetchPeopleError(this.errorMessage);
+  FetchPeopleError(this.message);
 }

@@ -42,7 +42,7 @@ class Profile {
   });
 
   final double aspectRatio;
-  final String filePath;
+  final String? filePath;
   final int height;
   final dynamic iso6391;
   final double voteAverage;

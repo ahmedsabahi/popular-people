@@ -22,7 +22,7 @@ class PeopleListScreen extends StatelessWidget {
           final peopleCubit = PeopleCubit.get(context);
           final results = peopleCubit.results;
           if (state is FetchPeopleError) {
-            return Center(child: Text(state.errorMessage));
+            return Center(child: Text(state.message));
           }
           if (state is FetchPeopleLoading && results.isEmpty) {
             return Center(child: circularProgress);

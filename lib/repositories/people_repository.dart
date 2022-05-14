@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:flutter/foundation.dart';
 import 'package:popular_people/models/details_model.dart';
 import 'package:popular_people/models/images_model.dart';
 import 'package:popular_people/models/people_model.dart';
@@ -17,6 +20,7 @@ class PeopleRepository {
       // if there is a network, get data from the api and return it
       final results = await _peopleService.fetchPeople(pageNum);
       // save the posts in db
+      if (kDebugMode) print("Hello from api");
       for (final result in results) {
         dbHelper.insert(result.toDB());
       }
@@ -24,6 +28,7 @@ class PeopleRepository {
     } else {
       // if there is no network, return saved data in db
       final savedResults = await dbHelper.queryAllRows();
+      if (kDebugMode) print("Hello from database");
       return resultModelFromDB(savedResults);
     }
   }
@@ -34,5 +39,9 @@ class PeopleRepository {
 
   Future<DetailsModel> fetchDetails(int personId) {
     return _peopleService.fetchDetails(personId);
+  }
+
+  Future<Uint8List> downloadImage(String imgPath) {
+    return _peopleService.downloadImage(imgPath);
   }
 }

@@ -6,13 +6,24 @@ import 'package:popular_people/models/people_model.dart';
 import 'package:popular_people/services/remote/people_service.dart';
 import 'package:popular_people/ui/personImage/person_image_screen.dart';
 
-class ImagesCard extends StatelessWidget {
+class ImagesCard extends StatefulWidget {
   const ImagesCard(
     this.person, {
     Key? key,
   }) : super(key: key);
 
   final Result person;
+
+  @override
+  State<ImagesCard> createState() => _ImagesCardState();
+}
+
+class _ImagesCardState extends State<ImagesCard> {
+  @override
+  void initState() {
+    ImagesCubit.get(context).fetchImages(widget.person.id);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +59,7 @@ class ImagesCard extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => PersonImageScreen(
-                      person: person,
+                      person: widget.person,
                       filePath: image.filePath.toString(),
                     ),
                   ));

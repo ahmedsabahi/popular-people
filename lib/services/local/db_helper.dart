@@ -11,7 +11,6 @@ class DbHelper {
   static const _TABLE = 'people';
   static const COLUMN_ID = 'id';
   static const COLUMN_NAME = 'name';
-  static const COLUMN_IMAGE = 'profile_path';
 
   // make this a singleton class
   DbHelper._();
@@ -42,8 +41,7 @@ class DbHelper {
     await db.execute('''
           CREATE TABLE $_TABLE (
             $COLUMN_ID INTEGER PRIMARY KEY,
-            $COLUMN_NAME TEXT,
-            $COLUMN_IMAGE TEXT
+            $COLUMN_NAME TEXT
           )
           ''');
   }

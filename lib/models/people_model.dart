@@ -46,7 +46,7 @@ List<Result> resultModelFromDB(dynamic data) =>
 
 class Result {
   Result({
-    this.profilePath,
+    required this.profilePath,
     this.adult,
     required this.id,
     this.knownFor,
@@ -84,12 +84,14 @@ class Result {
     return {
       DbHelper.COLUMN_ID: id,
       DbHelper.COLUMN_NAME: name,
+      DbHelper.COLUMN_IMAGE: profilePath,
     };
   }
 
   factory Result.fromDB(Map<String, dynamic> json) => Result(
         id: json[DbHelper.COLUMN_ID],
         name: json[DbHelper.COLUMN_NAME],
+        profilePath: json[DbHelper.COLUMN_IMAGE],
       );
 }
 
